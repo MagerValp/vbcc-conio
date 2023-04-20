@@ -27,11 +27,18 @@ _cgetc:
 	lda (SCREEN_PTR),y
 	eor #$80
 	sta (SCREEN_PTR),y
+ ifdef CURS_COLOR
+	lda CURS_COLOR
+	sta (CRAM_PTR),y
+ endif
 	lda #0
 	sta CURS_STATE
 :
 
 .getbuf:
+ ifdef KBDREAD
+	jmp KBDREAD
+ else
 	php
 	sei
 	ldy KEY_BUF
@@ -47,3 +54,4 @@ _cgetc:
 	plp
 	tya
 	rts
+ endif

@@ -1,22 +1,34 @@
-.PHONY: all clean distclean
 
-all:
+.PHONY: all
+all: pet c64
+
+
+.PHONY: pet
+pet:
 	make target=pet -f target.mk all
-	#make target=c64 -f target.mk all
 
+.PHONY: c64
+c64:
+	make target=c64 -f target.mk all
+
+
+.PHONY: clean
 clean:
-	find libsrc -name '*.o' -print0 | xargs -0 rm -f
-	find lib -name '*.a' -print0 | xargs -0 rm -f
-	find test \( \
-		   -name '*.d64' \
-		-o -name '*.prg' \
-		-o -name '*.o' \
-		-o -name '*.lab' \
-		-o -name '*.map' \
-		-o -name '*.mon' \
-		\) \
-		-print0 | xargs -0 rm -f
+	make target=pet -f target.mk clean
+	make target=c64 -f target.mk clean
 
+.PHONY: distclean
 distclean: clean
 	rm -f *~
 	find . -name .DS_Store -print0 | xargs -0 rm -f
+
+
+
+.PHONY: xpet
+xpet:
+	make target=pet -f target.mk xpet
+
+.PHONY: x64sc
+x64sc:
+	make target=c64 -f target.mk x64sc
+
